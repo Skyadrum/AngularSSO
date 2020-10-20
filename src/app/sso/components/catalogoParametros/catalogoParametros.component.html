@@ -1,0 +1,72 @@
+<div class="ui-g ui-g-12">
+
+    <p-panel [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12 ui-g-nopad">
+        <p-header>Área de trabajo</p-header>
+
+        <div class="ui-g ui-fluid ui-g-nopad">
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="idParametro">Id*</label>
+            </div>
+            <div class="ui-lg-1 ui-md-3 ui-sm-12">
+                <input pInputText id="idParametro" [(ngModel)]="elementoGuarda.idParametro" disabled placeholder="Id"
+                    min="1" type="number" />
+            </div>
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="nombre">Sistema*</label>
+            </div>
+            <div class="ui-lg-4 ui-md-5 ui-sm-12">
+                <p-dropdown optionLabel="name" [showClear]="true" [(ngModel)]="opcionSistema"
+                    placeholder="-- Seleccione un Sistema --" [filter]="true" [virtualScroll]="true" itemSize="10"
+                    [options]="listaSistema" (onChange)="cambiarSistema($event)"></p-dropdown>
+            </div>
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="paralelo">Parámetro*</label>
+            </div>
+            <div class="ui-lg-4 ui-md-10 ui-sm-12">
+                <input pInputText id="ambiente" [(ngModel)]="elementoGuarda.parametro" [disabled]="!habilitarInputs"
+                    placeholder="Parámetro" min="1" type="text" maxlength="50" />
+            </div>
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="paralelo">Descripción</label>
+            </div>
+            <div class="ui-lg-11 ui-md-10 ui-sm-12">
+                <input pInputText id="descripcion" [(ngModel)]="elementoGuarda.dsParametro" placeholder="Descripción"
+                    min="1" type="text" maxlength="250" [disabled]="!habilitarInputs" />
+            </div>
+
+        </div>
+    </p-panel>
+
+    <p-table #dt [value]="elementos" [columns]="cols" [responsive]="true" selectionMode="single" [rows]="15"
+        dataKey="idParametro" [(selection)]="elementoSeleccionado" [scrollable]="true" scrollHeight="350px"
+        [paginator]="true" styleClass="ui-fluid">
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th scope="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <input *ngSwitchCase="col.field" pInputText type="text"
+                        (input)="dt.filter($event.target.value, col.field, 'contains')">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns">
+                    <span class="ui-column-title">{{col.header}}</span>
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+</div>

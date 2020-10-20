@@ -1,0 +1,205 @@
+<div class="ui-lg-12 ui-g ui-fluid ui-g-nopad">
+
+    <div class="ui-lg-4 ui-md-12 ui-sm-12">
+        <p-panel header="Área de selección" [toggleable]="true">
+            <p-dropdown [options]="listaProyecto" [(ngModel)]="opcionSeleccionadaProyecto" optionLabel="name"
+                [showClear]="true" placeholder="-- Seleccione un Proyecto --" (onChange)="cambiarProyecto($event)">
+            </p-dropdown>
+
+            <p-treeTable [value]="menuArbol" selectionMode="single" [(selection)]="elementoSeleccionadoArbol"
+                (onNodeSelect)="limpiarSeleccion($event)">
+                <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                    <tr [ttSelectableRow]="rowNode">
+                        <td>
+                            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                            {{rowData.nombre}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-treeTable>
+        </p-panel>
+    </div>
+
+    <div class="ui-lg-8 ui-md-12 ui-sm-12">
+        <p-panel [toggleable]="true">
+            <p-header class="ui-panel-title">{{'Área de trabajo: ' + ruta + ' ' + obtenerEstatusPantalla()}}</p-header>
+            <!-- Proyecto -->
+            <div class="ui-g ui-fluid" *ngIf="true">
+                <div class="ui-lg-1 ui-md-3 ui-sm-12">
+                    <label>WBS *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-9 ui-sm-12">
+                    <input pInputText placeholder="Work Breakdown Structure" [(ngModel)]="proyectoGuarda.wbs"
+                        maxlength="255" [disabled]="!habilitarInputsProyecto" />
+                </div>
+
+                <div class="ui-lg-1 ui-md-3 ui-sm-12">
+                    <label>Proyecto *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-9 ui-sm-12">
+                    <input pInputText placeholder="Proyecto" [(ngModel)]="proyectoGuarda.proyecto" maxlength="255"
+                        [disabled]="!habilitarInputsProyecto" />
+                </div>
+
+                <div class="ui-lg-1 ui-md-3 ui-sm-12">
+                    <label>PL *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-9 ui-sm-12">
+                    <p-dropdown [options]="listaPL" [(ngModel)]="opcionSeleccionadaPL" optionLabel="name"
+                        [showClear]="true" placeholder="-- Project Leader --" [filter]="true" [virtualScroll]="true"
+                        itemSize="10" [disabled]="!habilitarInputsProyecto"></p-dropdown>
+                </div>
+
+                <div class="ui-lg-1 ui-md-3 ui-sm-12">
+                    <label>DM *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-9 ui-sm-12">
+                    <p-dropdown [options]="listaDM" [(ngModel)]="opcionSeleccionadaDM" optionLabel="name"
+                        [showClear]="true" placeholder="-- Delivery Manager --" [filter]="true" [virtualScroll]="true"
+                        itemSize="10" [disabled]="!habilitarInputsProyecto"></p-dropdown>
+                </div>
+
+                <div class="ui-lg-1 ui-md-3 ui-sm-12">
+                    <label>ADM *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-9 ui-sm-12">
+                    <p-dropdown [options]="listaADM" [(ngModel)]="opcionSeleccionadaADM" optionLabel="name"
+                        [showClear]="true" placeholder="-- Advanced Delivery Manager --" [filter]="true"
+                        [virtualScroll]="true" itemSize="10" [disabled]="!habilitarInputsProyecto"></p-dropdown>
+                </div>
+
+                <div class="ui-lg-1 ui-md-3 ui-sm-12">
+                    <label>PM *</label>
+                </div>
+
+                <div class="ui-lg-5 ui-md-9 ui-sm-12">
+                    <p-dropdown [options]="listaPM" [(ngModel)]="opcionSeleccionadaPM" optionLabel="name"
+                        [showClear]="true" placeholder="-- Practice Manager --" [filter]="true" [virtualScroll]="true"
+                        itemSize="10" [disabled]="!habilitarInputsProyecto"></p-dropdown>
+                </div>
+
+                <div class="ui-lg-1 ui-md-3 ui-sm-12">
+                    <label>Cliente *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-9 ui-sm-12">
+                    <p-dropdown [options]="listaCliente" [(ngModel)]="opcionSeleccionadaCliente" optionLabel="name"
+                        [showClear]="true" placeholder="-- Cliente --" [filter]="true" [virtualScroll]="true"
+                        itemSize="10" [disabled]="!habilitarInputsProyecto"></p-dropdown>
+                </div>
+
+                <p-table #dtProyecto [value]="gridProyecto" [columns]="columnasProyecto" [responsive]="true"
+                    selectionMode="single" [rows]="15" [(selection)]="proyectoSeleccionado" dataKey="idProyecto"
+                    [scrollable]="true" scrollHeight="350px" [paginator]="true" styleClass="ui-fluid"
+                    [style]="{'margin-top':'10px'}" (onRowSelect)="limpiarNodoSeleccionado($event)">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th scope="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="filter" *ngFor="let col of columns" [ngSwitch]="col.field">
+                                <input *ngSwitchCase="col.field" pInputText type="text"
+                                    (input)="dtProyecto.filter($event.target.value, col.field, 'contains')">
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                            <td *ngFor="let col of columns">
+                                <span class="ui-column-title">{{col.header}}</span>
+                                {{rowData[col.field]}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <!-- Control Produccion -->
+            <div class="ui-g ui-fluid" *ngIf="false">
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label>Id *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <input pInputText placeholder="Id Control Producción" disabled
+                        [(ngModel)]="controlProduccionGuarda.idControlProduccion" />
+                </div>
+
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label>Control Producción *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <input pInputText placeholder="Control Producción" [disabled]="!habilitarInputsControlProduccion"
+                        [(ngModel)]="controlProduccionGuarda.controlProduccion" maxlength="255" />
+                </div>
+
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="template">Proyecto *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <p-dropdown [options]="listaProyecto" [(ngModel)]="opcionSeleccionadaProyectoCP" [disabled]="!habilitarInputsControlProduccion"
+                        optionLabel="name" [showClear]="true" placeholder="-- Seleccione un Proyecto --"
+                        [filter]="true" [virtualScroll]="true" itemSize="10"></p-dropdown>
+                </div>
+
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label>Estatus *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <p-dropdown [options]="listaEstatusCP" [(ngModel)]="opcionSeleccionadaEstatusCP" optionLabel="name"
+                        [disabled]="!habilitarInputsControlProduccion" [showClear]="true"
+                        placeholder="-- Seleccione un Estatus --" [filter]="true" [virtualScroll]="true" itemSize="10">
+                    </p-dropdown>
+                </div>
+
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label>Template *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <p-dropdown [options]="listaTemplate" [(ngModel)]="opcionSeleccionadaTemplate"
+                        [disabled]="!habilitarInputsControlProduccion" optionLabel="name" [showClear]="true"
+                        placeholder="-- Seleccione un Template --" [filter]="true" [virtualScroll]="true" itemSize="10">
+                    </p-dropdown>
+                </div>
+
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label>Descripción *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <input pInputText placeholder="Descripción" [disabled]="!habilitarInputsControlProduccion"
+                        [(ngModel)]="controlProduccionGuarda.descControlProduccion" maxlength="255" />
+                </div>
+
+                <p-table #dtControlProduccion [value]="gridCP" [columns]="columnasCP" [responsive]="true" selectionMode="single"
+                    [rows]="15" [(selection)]="controlProduccionSeleccionado" dataKey="idcontrolProduccion"
+                    [scrollable]="true" scrollHeight="350px" [paginator]="true" styleClass="ui-fluid">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th scope="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="col" *ngFor="let col of columns" [ngSwitch]="col.field">
+                                <input *ngSwitchCase="col.field" pInputText type="text"
+                                    (input)="dtControlProduccion.filter($event.target.value, col.field, 'contains')">
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                            <td *ngFor="let col of columns">
+                                <span class="ui-column-title">{{col.header}}</span>
+                                {{rowData[col.field]}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+
+        </p-panel>
+    </div>
+
+</div>

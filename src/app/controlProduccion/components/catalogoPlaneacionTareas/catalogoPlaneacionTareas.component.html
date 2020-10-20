@@ -1,0 +1,244 @@
+<div class="ui-g ui-g-12">
+
+    <p-panel header="Captura Planeación" class="ui-g-12">
+
+        <div class="ui-fluid">
+            <p-dropdown [options]="controlesProducccionLista" [(ngModel)]="opcionSeleccionadaControlProduccion"
+                optionLabel="name" [showClear]="true" placeholder="-- Seleccione un Control de Producción --"
+                (onChange)="cambiarControlProduccion($event)"></p-dropdown>
+        </div>
+
+        <span>Template:
+            {{(opcionSeleccionadaControlProduccion != null ? opcionSeleccionadaControlProduccion.atributo : "")}}</span>
+
+        <br>
+        <span style="font-weight: bold;">
+            Tarea en edición:
+            {{(catalogoPlaneacionTareasSeleccionado != null && catalogoPlaneacionTareasSeleccionado.idTarea != null && catalogoPlaneacionTareasSeleccionado.edit) ? ("["+catalogoPlaneacionTareasSeleccionado.idTarea+"] "+(catalogoPlaneacionTareasSeleccionado.tarea != null ? catalogoPlaneacionTareasSeleccionado.tarea : "" )) : ""}}</span>
+
+        <p-table [value]="controlesProduccionGrid" dataKey="idGridAutomatico"
+            *ngIf="opcionSeleccionadaControlProduccion != null" [(selection)]="catalogoPlaneacionTareasSeleccionado"
+            class="cancel-highlight" [scrollable]="true" [style]="{width:'100%'}">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th scope="col" [style]="{'width': '45px'}" class="bgBlue"></th>
+                    <th scope="col" [style]="{'width': '82px'}" class="bgBlue">Id Tarea</th>
+                    <th scope="col" [style]="{'width': '200px'}" class="bgBlue">Agrupador Tarea *</th>
+                    <th scope="col" [style]="{'width': '200px'}" class="bgBlue">Tarea *</th>
+                    <th scope="col" [style]="{'width': '200px'}" class="bgBlue">Descripción Tarea *</th>
+                    <th scope="col" [style]="{'width': '200px'}" class="bgBlue">Responsable Tarea *</th>
+                    <th scope="col" [style]="{'width': '200px'}" class="bgBlue">Esfuerzo Planeado hrs *</th>
+                    <th scope="col" [style]="{'width': '200px'}" class="bgBlue">Esfuerzo Planeado Desarrollo hrs</th>
+                    <th scope="col" [style]="{'width': '200px'}" class="bgBlue">Etapa *</th>
+                    <th scope="col" [style]="{'width': '200px'}" class="bgBlue">Nota *</th>
+                    <th scope="col" [style]="{'width': '200px'}" [ngClass]="((indice % 7) == 0) ? 'bgGray' : ''" *ngFor="let col of columnas; let indice = index">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+                <tr [pSelectableRow]="rowData">
+                    <td *ngIf="!editandoTarea" [style]="{'width': '45px'}">
+                        <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+                    </td>
+                    <td *ngIf="editandoTarea" [style]="{'width': '45px'}">
+                        <p-tableRadioButton [disabled]="true" [value]="rowData"></p-tableRadioButton>
+                    </td>
+                    <td [style]="{'width': '82px'}">
+                        {{rowData.idTarea}}
+                    </td>
+
+                    <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px'}">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-dropdown [options]="listaCatalogoAgrupadorTareas" optionLabel="name"
+                                    [(ngModel)]="opcionSeleccionadaAgrupadorTarea"
+                                    placeholder="-- Seleccione Agrupador --" [filter]="true" [virtualScroll]="true"
+                                    itemSize="10" [showClear]="true" appendTo="body"></p-dropdown>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{opcionSeleccionadaAgrupadorTarea.name}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td *ngIf="!rowData.edit" [style]="{'width': '200px'}">{{rowData.agrupadorTarea}}</td>
+
+                    <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px'}">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="rowData.tarea" [style]="{'width':'100%'}">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{rowData.tarea}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td *ngIf="!rowData.edit" [style]="{'width': '200px'}">{{rowData.tarea}}</td>
+
+                    <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px'}">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <textarea pInputTextarea style="max-height: 70px;" [rows]="3"
+                                    [(ngModel)]="rowData.descTarea" maxlength="255" autoResize="false"
+                                    placeholder="Descripción Tarea"></textarea>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{rowData.descTarea}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td *ngIf="!rowData.edit" [style]="{'width': '200px'}">{{rowData.descTarea}}</td>
+
+                    <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px'}">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-dropdown [options]="listaCatalogoColaboradores" optionLabel="name"
+                                    [(ngModel)]="rowData.responsableSelect"
+                                    placeholder="-- Seleccione Responsable --" [filter]="true"
+                                    [virtualScroll]="true" itemSize="10" [showClear]="true" appendTo="body"
+                                    (onChange)="cambiarResponsable(rowData)">
+                                </p-dropdown>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{rowData.responsable}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td *ngIf="!rowData.edit" [style]="{'width': '200px'}">{{rowData.responsable}}</td>
+
+                    <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px','text-align':'right'}">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-spinner [(ngModel)]="rowData.esfuerzoPlaneado" [min]="0" [step]="1"
+                                (ngModelChange)="calcularEsfuerzoPlaneacion(rowData)"></p-spinner>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{rowData.esfuerzoPlaneado }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td *ngIf="!rowData.edit" [style]="{'width': '200px','text-align':'right'}">{{rowData.esfuerzoPlaneado}}</td>
+                    
+                    <td [style]="{'width': '200px','text-align':'right'}">{{rowData.esfuerzoPlaneadoDesarrollo}}</td>
+
+                    <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px'}">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-dropdown [options]="listaCatalogoEtapa" optionLabel="name"
+                                    [(ngModel)]="opcionSeleccionadaEtapa" placeholder="-- Seleccione Etapa --"
+                                    [filter]="true" [virtualScroll]="true" itemSize="10" [showClear]="true"
+                                    appendTo="body"></p-dropdown>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{opcionSeleccionadaEtapa.name}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td *ngIf="!rowData.edit" [style]="{'width': '200px'}">{{rowData.etapa}}</td>
+
+                    <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px'}">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <textarea pInputTextarea style="max-height: 70px;" [rows]="3" [(ngModel)]="rowData.nota"
+                                    maxlength="500" autoResize="false" placeholder="Nota Tarea"></textarea>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{rowData.nota}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td *ngIf="!rowData.edit" [style]="{'width': '200px'}">{{rowData.nota}}</td>
+
+
+
+                    <ng-container *ngFor="let planeacion of rowData.catPlaneacionList">
+                        <td [style]="{'width': '200px'}">{{planeacion.actividad}}</td>
+
+                        <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px'}">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-dropdown [options]="listaCatalogoColaboradores" optionLabel="name"
+                                        [(ngModel)]="planeacion.asignadoASelect"
+                                        placeholder="-- Seleccione Colaborador --" [filter]="true"
+                                        [virtualScroll]="true" itemSize="10" [showClear]="true" appendTo="body"
+                                        (onChange)="cambiarColaborador(planeacion)">
+                                    </p-dropdown>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{planeacion.asignadoAGrid}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td *ngIf="!rowData.edit" [style]="{'width': '200px'}">{{planeacion.asignadoAGrid}}</td>
+
+                        <td [style]="{'width': '200px','text-align':'right'}">
+                            {{planeacion.porcentage}}
+                        </td>
+
+                        <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px','text-align':'right'}">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-spinner [(ngModel)]="planeacion.esfuerzoPlaneado" (ngModelChange)="asignarPlaneacionManual(planeacion, rowData);"  [min]="0" [step]="1" [precision]="2">
+                                    </p-spinner>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{planeacion.esfuerzoPlaneado}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td *ngIf="!rowData.edit" [style]="{'width': '200px','text-align':'right'}">{{planeacion.esfuerzoPlaneado}}</td>
+
+                        <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px','text-align':'center'}">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-inputSwitch [(ngModel)]="planeacion.manualBoolean" (onChange)="calcularEsfuerzoActividad(planeacion, rowData)"></p-inputSwitch>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{(planeacion.manual == 1) ? "Sí":"No"}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td *ngIf="!rowData.edit" [style]="{'width': '200px','text-align':'center'}">{{(planeacion.manual == 1) ? "Sí":"No"}}</td>
+
+                        <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px'}">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-calendar id="fechaInicioPlaneado" [(ngModel)]="planeacion.fechaInicioPlaneado"
+                                        dateFormat="dd/mm/yy" placeholder="DD/MM/YYYY" showButtonBar="true"
+                                        [locale]="es" [monthNavigator]="true" [yearNavigator]="true"
+                                        yearRange="2000:2030" appendTo="body">
+                                    </p-calendar>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{planeacion.fechaInicioPlaneado |  date: formatoFecha}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td *ngIf="!rowData.edit" [style]="{'width': '200px'}">
+                            {{planeacion.fechaInicioPlaneado |  date: formatoFecha}}</td>
+
+
+                        <td pEditableColumn *ngIf="rowData.edit" [style]="{'width': '200px'}">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-calendar id="fechaTerminoPlaneado" [(ngModel)]="planeacion.fechaTerminoPlaneado"
+                                        dateFormat="dd/mm/yy" placeholder="DD/MM/YYYY" showButtonBar="true"
+                                        [locale]="es" [monthNavigator]="true" [yearNavigator]="true"
+                                        yearRange="2000:2030" appendTo="body">
+                                    </p-calendar>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{planeacion.fechaTerminoPlaneado |  date: formatoFecha}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td *ngIf="!rowData.edit" [style]="{'width': '200px'}">
+                            {{planeacion.fechaTerminoPlaneado |  date: formatoFecha}}</td>
+                    </ng-container>
+                </tr>
+            </ng-template>
+        </p-table>
+        <br>
+    </p-panel>
+
+</div>

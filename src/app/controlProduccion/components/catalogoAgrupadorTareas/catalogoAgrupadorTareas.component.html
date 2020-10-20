@@ -1,0 +1,67 @@
+<div class="ui-g ui-g-12">
+
+
+    <p-panel header='Área de trabajo' [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12 ui-g-nopad">
+
+            
+        <div class="ui-g ui-fluid ui-g-nopad">
+               
+                
+                <div class="ui-lg-2 ui-md-2 ui-sm-12">
+                        <label for="idAgrupadorTarea">Id Agrupador Tarea *</label>
+                    </div>
+                <div class="ui-lg-3 ui-md-3 ui-sm-12" >
+                        <input pInputText id="idAgrupadorTarea" placeholder="Id Agrupador Tarea" disabled [(ngModel)]="agrupadorTareaGuarda.idAgrupadorTarea" maxlength="11"/>
+                    </div>
+                
+               
+                
+                    <div class="ui-lg-2 ui-md-2 ui-sm-12">
+                        <label for="agrupadorTarea">Agrupador Tarea *</label>
+                    </div>
+                    <div class="ui-lg-5 ui-md-5 ui-sm-12">
+                        <input pInputText id="agrupadorTarea" placeholder="Agrupador Tarea" [(ngModel)]="agrupadorTareaGuarda.agrupadorTarea" [disabled]="!habilitarInputs" maxlength="255"/>
+                    </div>
+                
+             
+                
+                    <div class="ui-lg-2 ui-md-2 ui-sm-12">
+                        <label for="ordenAgrupadorTarea">Órden *</label>
+                    </div>
+                    <div class="ui-lg-10 ui-md-10 ui-sm-12">
+                        <input pInputText id="ordenAgrupadorTarea" placeholder="Órden" [(ngModel)]="agrupadorTareaGuarda.ordenAgrupadorTarea" type="number" min="0" [disabled]="!habilitarInputs" maxlength="20"/>
+                    </div>
+                
+          
+            </div>
+        </p-panel>
+
+        <p-table #dt [value]="agrupadorTarea" [columns]="cols" [responsive]="true" selectionMode="single" [rows]="15"
+            [(selection)]="agrupadorTareaSeleccionado" dataKey="idagrupadorTarea" [scrollable]="true" scrollHeight="350px"
+            [paginator]="true" styleClass="ui-fluid" >
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+                <tr>
+                    <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <input *ngSwitchCase="col.field" pInputText type="text"
+                            (input)="dt.filter($event.target.value, col.field, 'contains')">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                        <span class="ui-column-title">{{col.header}}</span>
+                        {{rowData[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+</div>

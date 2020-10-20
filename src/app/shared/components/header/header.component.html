@@ -1,0 +1,46 @@
+<nav aria-label="Navegación loggin" style="z-index: 1019"
+    class="navbar fixed-top navbar-expand-lg navbar-dark bgBlue header" *ngIf="user != null">
+    <p-button icon="pi pi-bars" id="botonToggleMenu" styleClass="ui-button-secondary" (onClick)="handleClick()">
+    </p-button>
+
+    <a class="navbar-brand" style="color: #FFFFFF;">
+        <img alt="logo" src="./assets/images/shared/logo.png" style="height: 30px; margin: 10px; margin-top: -13px;">
+    </a>
+    <button class="navbar-toggler" #buttonToogleHeader type="button" data-toggle="collapse"
+        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" style="color: #FFFFFF;">{{(opcionSeleccionadaAmbiente != null ? opcionSeleccionadaAmbiente.name : "")}}{{(nombrePantalla == "") ? "" : " / "+nombrePantalla}}</a>
+            </li>
+        </ul>
+        <div class="dropdown">
+            <button class="btn dropdown-toggle userBar" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false" style="background-color: #FFFFFF;">
+                <em class='pi pi-user'></em> {{usrLog}}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <div style="margin: 10px;">
+                    <span style="margin-right: 5px;">Ambiente</span>
+                    <p-dropdown [options]="listaAmbienteSelect" [(ngModel)]="opcionSeleccionadaAmbiente" optionLabel="name"
+                        (click)="onEvent($event)" (onChange)="cambiarAmbiente($event)"></p-dropdown>
+                </div>
+                <div style="margin: 10px 10px 0px 10px;text-align: right;">
+                    <p-button icon='pi pi-sign-out' label="Cerrar sesión" styleClass="ui-button-secondary"
+                        (onClick)="cerrarSesion()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<nav aria-label="Navegación sin loggin" class="navbar fixed-top navbar-expand-lg navbar-dark bgBlue header"
+    *ngIf="user == null">
+    <a class="navbar-brand" style="color: #FFFFFF;">
+        <img alt="logo" src="./assets/images/shared/logo.png" style="height: 30px; margin: 10px; margin-top: -13px;">
+    </a>
+</nav>

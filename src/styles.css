@@ -1,0 +1,47 @@
+.bgBlue {
+    background-color: #116fbf !important;
+}
+
+.container-fluid > .ng-star-inserted > .ui-g {
+    margin-bottom: 46px;
+    margin-top: 10px;
+}
+
+.menuBarGeneric > div{
+    margin-top: 58px;
+}
+
+.ui-table-tbody p-celleditor .ui-dropdown,
+.ui-table-tbody p-celleditor .ui-dropdown-label,
+.ui-table-tbody textarea,
+.ui-table-tbody p-spinner .ui-spinner,
+.ui-table-tbody p-spinner .ui-spinner-input {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.ui-table-tbody .ui-dropdown {
+    display: block;
+}
+
+.ui-table-tbody td {
+    overflow: auto;
+}
+
+body .cancel-highlight .ui-table .ui-table-tbody > tr.ui-state-highlight,
+body .cancel-highlight .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight {
+    background-color: initial;
+    color: initial;
+}
+
+.ui-datepicker.ui-widget.ui-widget-content {
+    z-index: 1019 !important;
+}
+
+body p-sidebar .ui-panelmenu .ui-panelmenu-content {
+    border: 0px;
+}
+
+.ui-dropdown > .ui-dropdown-label-container {
+    overflow: hidden;
+}

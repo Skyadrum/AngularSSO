@@ -1,0 +1,117 @@
+<div class="ui-g ui-g-12">
+
+
+    <p-panel header='Área de trabajo' [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12 ui-g-nopad">
+
+
+        <div class=" ui-g ui-fluid">
+
+            
+
+              <div class="ui-lg-2 ui-md-4 ui-sm-12">
+                    <label for="colaborador">Colaborador </label>
+                </div>
+
+                <div class="ui-lg-10 ui-md-8 ui-sm-12">
+                    <p-dropdown [options]="listaColaboradores" [(ngModel)]="opccionColaboradores" optionLabel="name"
+                        [showClear]="true" placeholder="-- Seleccione un Colaborador --" [filter]="true"
+                        [virtualScroll]="true" itemSize="10" (onChange)="cambiarColaboradores($event)"></p-dropdown>
+                </div>
+
+            
+
+            <div class="ui-lg-12 ui-md-10 ui-sm-12">
+                <p-dropdown [disabled]="planeacionCombo" [options]="listaPlaneaciones" [(ngModel)]="opccionPlaneaciones"
+                    optionLabel="name" [showClear]="true"
+                    placeholder="Control Producción /Tarea / Actividad / FPI / FPF" [virtualScroll]="true" itemSize="10"
+                    (onChange)="cambiarPlaneaciones($event)"></p-dropdown>
+            </div>
+        </div>
+
+    </p-panel>
+
+        <p-panel header='Formulario' [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g ui-fluid">
+
+
+                <div class="ui-lg-3 ui-md-6 ui-sm-12 ">
+                    <label for="float-fpi" >FPI</label>
+                    <input id="float-fpi" disabled [(ngModel)]="transaccionRealesGuarda.fechaInicioPlaneado" placeholder="Fecha Planeada Incio" pInputText> 
+                </div>
+
+                <div class="ui-lg-3 ui-md-6 ui-sm-12 ">
+                    <label for="float-fpf" >FPF</label>
+                    <input id="float-fpf" disabled [(ngModel)]="transaccionRealesGuarda.fechaTerminoPlaneado" placeholder="Fecha Planeada Fin" pInputText>
+                </div>
+
+                <div class="ui-lg-3 ui-md-6 ui-sm-12 ">
+                    <label for="float-ep" >EP</label>
+                    <input id="float-ep" disabled [(ngModel)]="transaccionRealesGuarda.esfuerzoPlaneado" placeholder="Esfuerzo Planeado" pInputText>
+                </div>
+
+                <div class="ui-lg-3 ui-md-6 ui-sm-12 ">
+                    <label for="float-ea" >EA</label>
+                    <input id="float-ea" disabled [(ngModel)]="transaccionRealesGuarda.esfuerzoTarea" placeholder="Esfuerzo Acumulado" pInputText>
+                </div>
+
+
+                <div class="ui-lg-3 ui-md-6 ui-sm-12 ">
+                    <label for="float-fa" >FA</label>
+                    <input id="float-fa" disabled [(ngModel)]="transaccionRealesGuarda.fechaHoy" placeholder="Fecha Actual" pInputText>
+                </div>
+
+                <div class="ui-lg-3 ui-md-6 ui-sm-12 ">
+                    <label for="float-erd">ERD</label>
+                    <input id="float-erd" disabled [(ngModel)]="transaccionRealesGuarda.esfuerzoHoy" placeholder="Esruerzo Real" pInputText>    
+                </div>
+
+                <div class="ui-lg-3 ui-md-6 ui-sm-12 ">
+                    <label for="float-usuario" >Usuario</label>
+                    <input id="float-usuario" disabled [(ngModel)]="transaccionRealesGuarda.usuario" placeholder="Usuario" pInputText>
+                </div>
+
+                <div class="ui-lg-3 ui-md-6 ui-sm-12 ">
+                    <label for="float-control">Control Producción</label>
+                    <input id="float-control" disabled [(ngModel)]="transaccionRealesGuarda.controlProd" placeholder="Control Producción" pInputText>   
+                </div>
+
+
+
+                <div class="ui-lg-2 ui-md-2 ui-sm-12">
+                    <label for="issue">Issue </label>
+                </div>
+
+                <div class="ui-lg-10 ui-md-10 ui-sm-12">
+                    <input pInputText id="issue" placeholder="Issue" [disabled]="boton"
+                        [(ngModel)]="transaccionRealCampos.issue" [disabled]="!habilitarInputs" maxlength="500"/>
+                </div>
+
+
+                <div class="ui-lg-2 ui-md-2 ui-sm-12">
+                    <label for="riesgo">Riesgo </label>
+                </div>
+
+                <div class="ui-lg-10 ui-md-10 ui-sm-12">
+                    <input pInputText id="riesgo" placeholder="Riesgo" [disabled]="boton"
+                        [(ngModel)]="transaccionRealCampos.riesgo" [disabled]="!habilitarInputs" maxlength="500"/>
+                </div>
+
+
+                <div class="ui-lg-2 ui-md-2 ui-sm-12">
+                    <label for="riesgo">Nota </label>
+                </div>
+
+                <div class="ui-lg-10 ui-md-10 ui-sm-12">
+                    <input pInputText id="nota" placeholder="Nota" [disabled]="boton"
+                        [(ngModel)]="transaccionRealCampos.nota" [disabled]="!habilitarInputs" />
+                </div>
+
+            </div>
+
+        </p-panel>
+    
+
+
+
+</div>

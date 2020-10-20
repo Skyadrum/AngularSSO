@@ -1,0 +1,105 @@
+<div class="ui-g ui-g-12">
+
+    <p-panel [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12 ui-g-nopad">
+        <p-header>Área de trabajo</p-header>
+            
+        <div class="ui-g ui-fluid  ui-g-nopad">
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="idActividad">Id Actividad *</label>
+            </div>
+            
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <input pInputText id="idActividad" placeholder="Id Actividad" disabled
+                    [(ngModel)]="actividadGuarda.idActividad" maxlength="20"/>
+            </div>
+        
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="actividad">Actividad *</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <input pInputText id="actividad" placeholder="Actividad"
+                [(ngModel)]="actividadGuarda.actividad" [disabled]="!habilitarInputs" maxlength="255"/>
+            </div>
+        
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="peso">Peso % *</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <input pInputText id="peso" placeholder="Peso % " [(ngModel)]="actividadGuarda.peso" type="number"
+                    min="0" max="100" step=".01"  [disabled]="!habilitarInputs" />
+            </div>
+                
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="descActividad">Descripción</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <input pInputText id="descActividad" placeholder="Descripción"
+                    [(ngModel)]="actividadGuarda.descActividad" [disabled]="!habilitarInputs" maxlength="255"/>
+            </div>
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="tipoTarea">Tipo Tarea *</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <p-dropdown [options]="listaTarea" [(ngModel)]="opcionSeleccionadaTarea" optionLabel="name"
+                    [showClear]="true" placeholder="-- Seleccione un Tipo Tarea --" [filter]="true"
+                    [virtualScroll]="true" itemSize="10" [disabled]="!habilitarInputs" ></p-dropdown>
+            </div>
+        
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="template">Template *</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <p-dropdown [options]="listaTemplate" [(ngModel)]="opcionSeleccionadaTemplate"
+                    optionLabel="name" [showClear]="true" placeholder="-- Seleccione un Template --"
+                    [filter]="true" [virtualScroll]="true" itemSize="10" [disabled]="!habilitarInputs"></p-dropdown>
+            </div>
+        
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="predecesor">Actividad Predecesora</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <p-dropdown [options]="listaActividades" [(ngModel)]="opcionSeleccionadaActividad"
+                    optionLabel="name" [showClear]="true" placeholder="-- Seleccione Actividad Predecesora --"
+                    [filter]="true" [virtualScroll]="true" itemSize="10" [disabled]="!habilitarInputs"></p-dropdown>
+            </div>
+        
+
+            <div class="ui-lg-2 ui-md-3 ui-sm-12">
+                <label for="paralelo">¿Se puede trabajar en paralelo?</label>
+            </div>
+            <div class="ui-lg-4 ui-md-3 ui-sm-12">
+                <p-inputSwitch [disabled]="!habilitarInputs" [(ngModel)]="opcionSeleccionadaParalelo" ></p-inputSwitch>
+            </div>
+        </div>
+    </p-panel>
+
+    <p-table #dt [value]="actividades" [columns]="cols" [responsive]="true" selectionMode="single" [rows]="15"
+        [(selection)]="actividadSeleccionada" dataKey="idactividad" [scrollable]="true" scrollHeight="350px"
+        [paginator]="true" styleClass="ui-fluid">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <input *ngSwitchCase="col.field" pInputText type="text"
+                        (input)="dt.filter($event.target.value, col.field, 'contains')">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns">
+                    <span class="ui-column-title">{{col.header}}</span>
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

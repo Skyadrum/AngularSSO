@@ -1,0 +1,109 @@
+<div class="ui-g ui-g-12">
+
+
+    
+        <p-panel header='Área de trabajo' [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12 ui-g-nopad">
+
+            <div class="ui-g ui-fluid">
+
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="wbs">WBS *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <input pInputText id="wbs" placeholder="WBS" [(ngModel)]="proyectoGuarda.wbs" [disabled]="!habilitarInputs" maxlength="255"/>
+                </div>
+            
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="proyecto">Proyecto *</label>
+                </div>
+                <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <input pInputText id="proyecto"  placeholder="Proyecto" [(ngModel)]="proyectoGuarda.proyecto" [disabled]="!habilitarInputs" maxlength="255"/>
+                </div>
+              
+              <!-- Segunda seccion -->
+                  <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                      <label for="projectLeader">Project Lader *</label>
+                  </div>
+                  <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <p-dropdown [options]="listaPL" [(ngModel)]="opcionPL" optionLabel="name"
+                       [showClear]="true" placeholder="-- Project Lader --" [filter]="true"
+                       appendTo="body" [virtualScroll]="true" itemSize="10" [disabled]="!habilitarInputs" ></p-dropdown>
+                  </div>
+              
+                  <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                      <label for="deliveryManager">Delivery Manager  *</label>
+                  </div>
+                  <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <p-dropdown [options]="listaDM" [(ngModel)]="opcionDM" optionLabel="name"
+                       [showClear]="true" placeholder="-- Delivery Manager --" [filter]="true"
+                       appendTo="body" [virtualScroll]="true" itemSize="10" [disabled]="!habilitarInputs"></p-dropdown>
+                  </div>
+              
+                  <!-- Tercera seccion -->
+              
+                  <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                      <label for="adm">ADM *</label>
+                  </div>
+                  <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <p-dropdown [options]="listaAdm" [(ngModel)]="opcionAdm" optionLabel="name"
+                       [showClear]="true" placeholder="-- ADM --" [filter]="true"
+                       appendTo="body" [virtualScroll]="true" itemSize="10" [disabled]="!habilitarInputs" ></p-dropdown>
+                  </div>
+              
+
+              
+                  <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                      <label for="practiceManager">Practice Manager *</label>
+                  </div>
+
+                  <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                    <p-dropdown [options]="listaPXM" [(ngModel)]="opcionPXM" optionLabel="name"
+                       [showClear]="true" placeholder="-- Practice Manager --" [filter]="true"
+                       appendTo="body" [virtualScroll]="true" itemSize="10" [disabled]="!habilitarInputs" ></p-dropdown>
+                  </div>
+
+              
+
+              
+                    <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                        <label for="idCliente">Cliente *</label>
+                    </div>
+                    <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                        <p-dropdown [options]="listaClientes" [(ngModel)]="opcionCliente" optionLabel="name"
+                        [showClear]="true" placeholder="-- Cliente --" [filter]="true"
+                        appendTo="body" [virtualScroll]="true" itemSize="10" [disabled]="!habilitarInputs"></p-dropdown>
+                    </div>
+              
+          </div>
+
+        </p-panel>
+
+            <p-table #dt [value]="proyectos" [columns]="cols" [responsive]="true" selectionMode="single" [rows]="15"
+                [(selection)]="proyectoSeleccionado" dataKey="idProyecto" [scrollable]="true" scrollHeight="350px"
+                [paginator]="true" styleClass="ui-fluid" >
+
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+                <tr>
+                    <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <input *ngSwitchCase="col.field" pInputText type="text"
+                            (input)="dt.filter($event.target.value, col.field, 'contains')">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                        <span class="ui-column-title">{{col.header}}</span>
+                        {{rowData[col.field]}}
+                    </td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+</div>

@@ -1,0 +1,155 @@
+<div class="ui-g ui-g-12">
+    <p-panel header="Encriptar Texto" [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12">
+        <div class="ui-fluid ui-g">
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Método*</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <p-dropdown [options]="listaMetodosEncriptaTexto" [(ngModel)]="opcionSeleccionadaMetodoEncriptaTexto"
+                    optionLabel="name" [showClear]="true" placeholder="-- Método de Encriptado --" [filter]="true"
+                    [virtualScroll]="true" itemSize="10"></p-dropdown>
+            </div>
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Llave*</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <input pInputText placeholder="Llave de Encriptado"
+                    [(ngModel)]="elementoFormulario.llaveMetodoEncriptaTexto" />
+            </div>
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Texto*</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <textarea pInputTextarea style="max-height: 70px;" [rows]="3"
+                    [(ngModel)]="elementoFormulario.textoEncripta" autoResize="false"
+                    placeholder="Texto a Encriptar"></textarea>
+            </div>
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Resultado</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <textarea disabled pInputTextarea style="max-height: 70px;" [rows]="3"
+                    [(ngModel)]="elementoFormulario.resultadoTextoEncripta" autoResize="false"
+                    placeholder="Texto Encriptado"></textarea>
+                <p-button label="Copiar" [disabled]="elementoFormulario.resultadoTextoEncripta == null"
+                    (onClick)="mensajeService.mandarMensajeSuccess('Resultado copiado con éxito')"
+                    styleClass="ui-button-secondary" [cdkCopyToClipboard]="elementoFormulario.resultadoTextoEncripta">
+                </p-button>
+            </div>
+        </div>
+    </p-panel>
+
+    <p-panel header="Desencriptar Texto" [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12">
+        <div class="ui-fluid ui-g">
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Método*</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <p-dropdown [options]="listaMetodosDesencriptaTexto" [(ngModel)]="opcionSeleccionadaMetodoDesencriptaTexto"
+                    optionLabel="name" [showClear]="true" placeholder="-- Método de Desencriptado --" [filter]="true"
+                    [virtualScroll]="true" itemSize="10"></p-dropdown>
+            </div>
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Llave*</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <input pInputText placeholder="Llave de Desencriptado"
+                    [(ngModel)]="elementoFormulario.llaveMetodoDesencriptaTexto" />
+            </div>
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Texto*</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <textarea pInputTextarea style="max-height: 70px;" [rows]="3"
+                    [(ngModel)]="elementoFormulario.textoDesencripta" autoResize="false"
+                    placeholder="Texto a Desencriptar"></textarea>
+            </div>
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Resultado</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <textarea disabled pInputTextarea style="max-height: 70px;" [rows]="3"
+                    [(ngModel)]="elementoFormulario.resultadoTextoDesencripta" autoResize="false"
+                    placeholder="Texto Desencriptado"></textarea>
+                <p-button label="Copiar" [disabled]="elementoFormulario.resultadoTextoDesencripta == null"
+                    (onClick)="mensajeService.mandarMensajeSuccess('Resultado copiado con éxito')"
+                    styleClass="ui-button-secondary"
+                    [cdkCopyToClipboard]="elementoFormulario.resultadoTextoDesencripta"></p-button>
+            </div>
+        </div>
+    </p-panel>
+
+    <!--
+    <p-panel header="Encriptar Archivo" [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12">
+        <div class="ui-fluid ui-g">
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Método*</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <p-dropdown [options]="listaMetodosEncriptaArchivo"
+                    [(ngModel)]="opcionSeleccionadaMetodoEncriptaArchivo" optionLabel="name" [showClear]="true"
+                    placeholder="-- Método de Encriptado --" [filter]="true" [virtualScroll]="true" itemSize="10">
+                </p-dropdown>
+            </div>
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Llave*</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <input pInputText placeholder="Llave de Encriptado, 16 caracteres"
+                    [(ngModel)]="elementoFormulario.llaveMetodoEncriptaArchivo" minlength="16" maxlength="16" />
+            </div>
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Archivo*</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+
+
+
+                <h1>Upload your Avatar!</h1>
+                <div>
+                    <div *ngIf="error">
+                        {{ error }}
+                    </div>
+                    <div >
+                        Hola {{ uploadResponse.filePath }} {{ uploadResponse.status }} {{uploadResponse.message}}
+                    </div>
+                    <div *ngIf="uploadResponse.status === 'progress'">
+
+
+                        <div role="progressbar" [style.width.%]="uploadResponse.message" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100">
+                            {{uploadResponse.message}}%
+                        </div>
+
+                    </div>
+
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+                        <input type="file" name="avatar" (change)="onFileChange($event)" />
+                        <button type="submit">Upload</button>
+
+                    </form>
+                </div>
+
+
+
+            </div>
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label>Resultado</label>
+            </div>
+            <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                <textarea disabled pInputTextarea style="max-height: 70px;" [rows]="3"
+                    [(ngModel)]="elementoFormulario.resultadoTextoEncripta" autoResize="false"
+                    placeholder="Texto Encriptado"></textarea>
+                <p-button label="Copiar" [disabled]="elementoFormulario.resultadoTextoEncripta == null"
+                    (onClick)="mensajeService.mandarMensajeSuccess('Resultado copiado con éxito')"
+                    styleClass="ui-button-secondary" [cdkCopyToClipboard]="elementoFormulario.resultadoTextoEncripta">
+                </p-button>
+            </div>
+        </div>
+    </p-panel>
+    -->
+</div>

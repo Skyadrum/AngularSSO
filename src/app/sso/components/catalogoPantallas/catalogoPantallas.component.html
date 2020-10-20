@@ -1,0 +1,296 @@
+<div class="ui-g ui-g-12">
+
+    <div class="ui-lg-3 ui-md-2">
+        <p-panel [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12 ui-g-nopad">
+            <p-header>TreeView</p-header>
+
+            <!-- <p-panelMenu [model]="items" [style]="{'width':'100%', 'height':'100%', 'overflow': 'auto'}"></p-panelMenu> -->
+          <p-treeTable [value]="files1" selectionMode="single" [(selection)]="elementoSeleccionadoArbol" (onNodeSelect)="nodeSelect($event)" >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Pantallas</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                    <tr [ttSelectableRow]="rowNode" >
+                        <td>
+                            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                            {{rowData.name}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-treeTable>
+        </p-panel>
+    </div>
+
+    <div class="ui-lg-9 ui-md-10">
+        <p-panel [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12 ui-g-nopad">
+            <p-header>Área de trabajo</p-header>
+    
+            <div class="ui-g ui-fluid ui-g-nopad">
+    
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="id">Id</label>
+                </div>
+                <div class="ui-lg-3 ui-md-3 ui-sm-12">
+                    <input pInputText id="id"  disabled placeholder="Id" min="1" type="number" [(ngModel)]="elementoGuarda.idPantalla" />
+                </div>
+    
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="ambiente">Ambiente*</label>
+                </div>
+                <div class="ui-lg-3 ui-md-5 ui-sm-12">
+                    <p-dropdown id="ambiente" optionLabel="name"
+                     [showClear]="true" placeholder="--Seleccione Ambiente--" [options]="comboAmbiente" [(ngModel)]="opcionAmbiente" (onChange)="cambiarAmbiente($event)"></p-dropdown>
+                </div>
+    
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="Pantalla">Pantalla*</label>
+                </div>
+                <div class="ui-lg-3 ui-md-10 ui-sm-12">
+                    <input pInputText id="Pantalla" [disabled]="!habilitarInputs"
+                        placeholder="Pantalla" min="1" type="text" maxlength="250" [(ngModel)]="elementoGuarda.pantalla"/>
+                </div>
+    
+                <!--  -->
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="clase">Clase</label>
+                </div>
+                <div class="ui-lg-3 ui-md-3 ui-sm-12">
+                    <input pInputText id="clase"  [disabled]="!habilitarInputs" placeholder="Clase" min="1" maxlength="250" type="text" [(ngModel)]="elementoGuarda.clase"/>
+                </div>
+    
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="descripcion">Descripción</label>
+                </div>
+                <div class="ui-lg-3 ui-md-5 ui-sm-12">
+                    <input pInputText id="descripcion" [disabled]="!habilitarInputs"
+                        placeholder="Descripción" min="1" type="text" maxlength="250" [(ngModel)]="elementoGuarda.dsPantalla"/>
+                </div>
+    
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="compilado">Compilado</label>
+                </div>
+                <div class="ui-lg-3 ui-md-10 ui-sm-12">
+                    <input pInputText id="compilado" [disabled]="!habilitarInputs"
+                        placeholder="Compilado" min="1" type="text" maxlength="250" [(ngModel)]="elementoGuarda.compilado"/>
+                </div>
+    
+                <!--  -->
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="ruta">Ruta Menú</label>
+                </div>
+                <div class="ui-lg-3 ui-md-3 ui-sm-12">
+                    <input pInputText id="ruta" [disabled]="!habilitarInputs" placeholder="Ruta Menu" min="1" maxlength="450" type="text" [(ngModel)]="elementoGuarda.rutaMenu"/>
+                </div>
+    
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="propNegocio">Propietario Negocio</label>
+                </div>
+                <div class="ui-lg-3 ui-md-5 ui-sm-12">
+                    <p-dropdown id="propNegocio" optionLabel="value"
+                     [showClear]="true" placeholder="--Seleccione Usuario--" [options]="comboUsuarios" [disabled]="!habilitarInputs" 
+                     [(ngModel)]="opcionPropNegocio"></p-dropdown>
+                </div>
+    
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="propSistema">Propietario Sistemas</label>
+                </div>
+                <div class="ui-lg-3 ui-md-10 ui-sm-12">
+                    <p-dropdown id="propSistema" optionLabel="value"
+                     [showClear]="true" placeholder="--Seleccione Usuario--" [options]="comboPropSistema" [disabled]="!habilitarInputs"
+                     [(ngModel)]="opcionPropSistema"></p-dropdown>
+                </div>
+    
+                <!--  -->
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="url">URL Help</label>
+                </div>
+                <div class="ui-lg-3 ui-md-3 ui-sm-12">
+                    <input pInputText id="url" [disabled]="!habilitarInputs" placeholder="URL Help" min="1" maxlength="550" type="text" [(ngModel)]="elementoGuarda.urlHelp"/>
+                </div>
+    
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="link">Router Link</label>
+                </div>
+                <div class="ui-lg-3 ui-md-5 ui-sm-12">
+                    <input pInputText id="link" [disabled]="!habilitarInputs"
+                        placeholder="Router Link" min="1" type="text" maxlength="250" [(ngModel)]="elementoGuarda.routerLink"/>
+                </div>
+    
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="orden">Orden</label>
+                </div>
+                <div class="ui-lg-1 ui-md-10 ui-sm-12">
+                    <input pInputText id="orden" [disabled]="!habilitarInputs"
+                        placeholder="Orden" min="1" type="number" [(ngModel)]="elementoGuarda.orden"/>
+                </div>
+                <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                    <label for="pantallaBloqueada">Pantalla Bloqueada</label>
+                </div>
+                <div class="ui-lg-1 ui-md-10 ui-sm-12">
+                    <p-inputSwitch [disabled]="!habilitarInputs" id="pantallaBloqueada" [(ngModel)]="elementoGuarda.bolPantallaBloqueada"></p-inputSwitch>
+                </div>
+    
+                <!-- Permisos -->
+                <p-panel class="ui-g-12 ui-g-nopad">
+                    <p-header>Permisos</p-header>
+                    <!-- Primer Bloque -->
+                    <div class="ui-g">
+                        <div class="ui-lg-4 ui-md-5 ud-sm-12">
+                            <div class="p-col-12">
+                                <p-checkbox label="Nuevo" [(ngModel)]="listaPermisos[0]" [binary]="true" ></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Editar" [(ngModel)]="listaPermisos[1]" [binary]="true" ></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Borrar" [(ngModel)]="listaPermisos[2]" [binary]="true" ></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Cancelar" [(ngModel)]="listaPermisos[3]" [binary]="true" ></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Guardar" [(ngModel)]="listaPermisos[4]" [binary]="true"  ></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Aceptar/Ok" [(ngModel)]="listaPermisos[5]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Ejecutar" [(ngModel)]="listaPermisos[6]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Cargar/Importar csv" [(ngModel)]="listaPermisos[7]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Cargar/Importar xls" [(ngModel)]="listaPermisos[8]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Cargar/Importar txt" [(ngModel)]="listaPermisos[9]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Cargar/Importar Archivo" [(ngModel)]="listaPermisos[10]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Descargar/Exportar csv" [(ngModel)]="listaPermisos[11]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Descargar/Exporta xls" [(ngModel)]="listaPermisos[12]" [binary]="true"></p-checkbox>
+                            </div>
+                        </div>
+    
+                        <!-- Segundo Bloque -->
+                        <div class="ui-lg-4 ui-md-5 ud-sm-12">
+                            <div class="p-col-12">
+                                <p-checkbox  label="Descargar/Exporta txt" [(ngModel)]="listaPermisos[13]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Descargar/Exporta pdf" [(ngModel)]="listaPermisos[14]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Descargar/Exporta Archivo" [(ngModel)]="listaPermisos[15]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Copiar" [(ngModel)]="listaPermisos[16]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Enviar/Compartir" [(ngModel)]="listaPermisos[17]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Imprimir" [(ngModel)]="listaPermisos[18]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Refrescar/Recargar" [(ngModel)]="listaPermisos[19]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Consultar/Buscar" [(ngModel)]="listaPermisos[20]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Encriptar" [(ngModel)]="listaPermisos[21]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Desencriptar" [(ngModel)]="listaPermisos[22]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Flecha Arriba" [(ngModel)]="listaPermisos[23]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Flecha Abajo" [(ngModel)]="listaPermisos[24]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Flecha Izquierda" [(ngModel)]="listaPermisos[25]" [binary]="true"></p-checkbox>
+                            </div>
+                        </div>
+    
+                        <!-- Tercer Bloque -->
+                        <div class="ui-lg-4 ui-md-5 ud-sm-12">
+                            <div class="p-col-12">
+                                <p-checkbox  label="Flecha Derecha" [(ngModel)]="listaPermisos[26]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Siguiente" [(ngModel)]="listaPermisos[27]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Anterior" [(ngModel)]="listaPermisos[28]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Página Siguiente" [(ngModel)]="listaPermisos[29]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Página Anterior" [(ngModel)]="listaPermisos[30]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Primera Página" [(ngModel)]="listaPermisos[31]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Última Página" [(ngModel)]="listaPermisos[32]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Help/Manual de la pantalla" [(ngModel)]="listaPermisos[33]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Iniciar" [(ngModel)]="listaPermisos[34]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Detener" [(ngModel)]="listaPermisos[35]" [binary]="true"></p-checkbox>
+                            </div>
+                            <div class="p-col-12">
+                                <p-checkbox  label="Finalizar" [(ngModel)]="listaPermisos[36]" [binary]="true"></p-checkbox>
+                            </div>
+
+                        </div>
+                    </div>
+                </p-panel>
+            </div>
+        </p-panel>
+    </div>
+
+    <!-- GRID -->
+    <p-table #dt [value]="elementos" [columns]="cols" [responsive]="true" [(selection)]="elementoSeleccionado"
+        selectionMode="single" [rows]="15" dataKey="idPantalla" [scrollable]="true" scrollHeight="350px" [paginator]="true" styleClass="ui-fluid">
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th scope="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <input *ngSwitchCase="col.field" pInputText type="text"
+                        (input)="dt.filter($event.target.value, col.field, 'contains')">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns">
+                    <span class="ui-column-title">{{col.header}}</span>
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+</div>

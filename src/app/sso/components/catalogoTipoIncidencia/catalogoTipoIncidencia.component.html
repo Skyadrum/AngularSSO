@@ -1,0 +1,65 @@
+<div class="ui-g ui-g-12">
+
+    <p-panel [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12 ui-g-nopad">
+        <p-header>Área de trabajo</p-header>
+
+        <div class="ui-g ui-fluid ui-g-nopad">
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="id">Id*</label>
+            </div>
+            <div class="ui-lg-2 ui-md-3 ui-sm-12">
+                <input pInputText id="id" placeholder="Id" min="1"
+                    type="number" maxlength="5" max="5" [disabled]="!habilitarEdicion" [(ngModel)]="elementoGuarda.idTipoIncidencia"/>
+            </div>
+
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="nombre">Tipo*</label>
+            </div>
+            <div class="ui-lg-8 ui-md-5 ui-sm-12">
+                <input pInputText id="sistema" [disabled]="!habilitarInputs"
+                    placeholder="Tipo de incidencia" maxlength="150" [(ngModel)]="elementoGuarda.tipoIncidencia"/>
+            </div>
+
+            
+            <!-- Descripcion -->
+            <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                <label for="descripcion">Descripción</label>
+            </div>
+            <div class="ui-lg-11 ui-md-10 ui-sm-12">
+                <input pInputText id="descripcion" [disabled]="!habilitarInputs"
+                    placeholder="Descripción" maxlength="250" [(ngModel)]="elementoGuarda.dsTipoIncidencia"/>
+            </div>
+
+        </div>
+    </p-panel>
+
+    <p-table #dt [value]="elementos" [columns]="cols" [responsive]="true"
+        selectionMode="single" [rows]="15" dataKey="idTipoIncidencia" [scrollable]="true" scrollHeight="350px" [paginator]="true"
+        styleClass="ui-fluid" [(selection)]="elementoSeleccionado">
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th scope="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <input *ngSwitchCase="col.field" pInputText type="text"
+                        (input)="dt.filter($event.target.value, col.field, 'contains')">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns">
+                    <span class="ui-column-title">{{col.header}}</span>
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+</div>

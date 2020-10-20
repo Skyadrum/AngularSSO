@@ -1,0 +1,22 @@
+<app-header [user]="user" (toogleMenu)="toogleMenu()"></app-header>
+
+<app-sidebar *ngIf="user != null" [visible]="visible" (closeMenu)="closeMenu()" (openMenu)="openMenu()"></app-sidebar>
+
+<app-menubar *ngIf="user != null"></app-menubar>
+
+<div class="container-fluid">
+    <router-outlet></router-outlet>
+</div>
+
+<app-footer></app-footer>
+
+<p-toast [baseZIndex]="1020"></p-toast>
+
+<p-confirmDialog [baseZIndex]="1022" header="Confirmación" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<p-blockUI [baseZIndex]="1021" [blocked]="blockedDocument">
+    <div style="display: flex;justify-content: center;align-items: center;height: 100%;">
+        <p-progressSpinner [style]="{width: '180px', height: '180px'}" strokeWidth="1" animationDuration="5s">
+        </p-progressSpinner>
+    </div>
+</p-blockUI>

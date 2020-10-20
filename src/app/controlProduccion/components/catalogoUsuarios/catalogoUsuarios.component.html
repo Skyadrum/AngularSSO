@@ -1,0 +1,79 @@
+<div class="ui-g ui-g-12">
+
+    <p-panel [toggleable]="true" [style]="{'margin-bottom':'20px'}" class="ui-g-12 ui-g-nopad">
+
+        <p-header>Área de trabajo</p-header>
+            
+        <div class="ui-g ui-fluid">
+
+                
+                   <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                        <label for="idUsuario">Id Usuario *</label>
+                    </div>
+                    <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                        <input pInputText id="idUsuario" disabled placeholder="Id Usuario" [(ngModel)]="usuarioGuarda.idUsuario" min="1"  max="11"/>
+                    </div>
+                
+
+                
+                    <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                        <label for="usuario">Usuario *</label>
+                    </div>
+                    <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                        <input pInputText id="usuario" placeholder="Usuario" [(ngModel)]="usuarioGuarda.usuario" [disabled]="!habilitarInputs" maxlength="255"/>
+                    </div>
+                
+
+                
+                    <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                        <label for="clave">Clave *</label>
+                    </div>
+                    <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                        <input pInputText id="clave" placeholder="Clave" [(ngModel)]="usuarioGuarda.clave" [disabled]="!habilitarInputs" maxlength="255"/>
+                    </div>
+                
+                
+                
+                    <div class="ui-lg-1 ui-md-2 ui-sm-12">
+                        <label for="colaborador">Colaborador *</label>
+                    </div>
+                    <div class="ui-lg-5 ui-md-4 ui-sm-12">
+                        <p-dropdown [options]="listaColaboradores" [(ngModel)]="opcionCatalogo" optionLabel="name"
+                            [showClear]="true" placeholder="-- Seleccione un Colaborador --" [filter]="true"
+                            [virtualScroll]="true" itemSize="10" [disabled]="!habilitarInputs"></p-dropdown>
+                    </div>
+                
+
+            </div>
+        </p-panel>
+
+        <p-table #dt [value]="usuarios" [columns]="cols" [responsive]="true" selectionMode="single" [rows]="15"
+            [(selection)]="usuarioSeleccionado" dataKey="idUsuario" [scrollable]="true" scrollHeight="350px"
+            [paginator]="true" styleClass="ui-fluid">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" scope="col">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+                <tr>
+                    <th *ngFor="let col of columns" [ngSwitch]="col.field" scope="col">
+                        <input *ngSwitchCase="col.field" pInputText type="text"
+                            (input)="dt.filter($event.target.value, col.field, 'contains')">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                        <span class="ui-column-title">{{col.header}}</span>
+                        {{rowData[col.field]}}
+                    </td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+ 
+
+</div>
